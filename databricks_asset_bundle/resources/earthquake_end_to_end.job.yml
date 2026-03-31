@@ -1,7 +1,7 @@
 resources:
   jobs:
     earthquake_end_to_end:
-      name: earthquake_end_to_end
+      name: earthquake_end_to_end_prod
       tasks:
         - task_key: ingestion_bronze
           notebook_task:
