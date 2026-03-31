@@ -1,0 +1,22 @@
+resources:
+  jobs:
+    earthquake_end_to_end:
+      name: earthquake_end_to_end
+      tasks:
+        - task_key: ingestion_bronze
+          notebook_task:
+            notebook_path: ../src/notebooks/ingestion_to_bronze.ipynb
+            base_parameters:
+              catlog catlog_name: databricks_as
+            source: WORKSPACE
+        - task_key: Bronze_to_silver_earthquake
+          depends_on:
+            - task_key: ingestion_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.bronze_to_silver_earthquake_etl.id}
+      queue:
+        enabled: true
+      parameters:
+        - name: catlog_name
+          default: ${var.catalog}
+      performance_target: PERFORMANCE_OPTIMIZED
